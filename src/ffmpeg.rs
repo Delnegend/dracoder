@@ -48,10 +48,10 @@ fn get_args(in_path: &str) -> Vec<String> {
     .collect()
 }
 
-pub fn convert(in_path: &str, out_path: &str) -> Result<bool, std::io::Error> {
+pub fn convert(in_path: &str) -> Result<bool, std::io::Error> {
     let output = Command::new("ffmpeg")
-        .args(get_args(in_path, out_path))
-        .output()?;
-
-    Ok(output.status.success())
+        .args(get_args(in_path))
+        .spawn()?
+        .wait()?;
+    Ok(output.success())
 }
