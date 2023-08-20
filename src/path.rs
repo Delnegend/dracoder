@@ -1,3 +1,5 @@
+use super::ffmpeg::Formats;
+
 pub fn replace_ext(path: &str, ext: &str) -> String {
     let mut path = path.to_string();
     let mut ext = ext.to_string();
@@ -9,7 +11,7 @@ pub fn replace_ext(path: &str, ext: &str) -> String {
     }
     path
 }
-pub fn from_bin_get_ext<'a>() -> &'a str {
+pub fn from_bin_get_ext() -> Formats {
     let bin_name = std::env::current_exe()
         .unwrap()
         .file_name()
@@ -18,8 +20,10 @@ pub fn from_bin_get_ext<'a>() -> &'a str {
         .unwrap()
         .to_string();
     match bin_name.as_str() {
-        case if case.contains("webp") => "webp",
-        case if case.contains("avif") => "avif",
+        case if case.contains("webp") => Formats::Webp,
+        case if case.contains("avif") => Formats::Avif,
+        case if case.contains("x264") => Formats::X264,
+        case if case.contains("x265") => Formats::X265,
         _ => {
             println!("Unknown binary name, press any key to exit...");
             std::io::stdin().read_line(&mut String::new()).unwrap();
