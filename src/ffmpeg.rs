@@ -30,13 +30,8 @@ pub fn check_ffmpeg() -> Result<bool, std::io::Error> {
 }
 
 fn get_args(in_path: &str) -> Vec<String> {
-    let format = from_bin_get_ext();
-    let out_path = match format {
-        Formats::Webp => replace_ext(in_path, "webp"),
-        Formats::Avif => replace_ext(in_path, "avif"),
-        Formats::X264 => replace_ext(in_path, ".x264.mp4"),
-        Formats::X265 => replace_ext(in_path, ".x265.mp4"),
-    };
+    let (format, ext) = from_bin_get_ext();
+    let out_path = replace_ext(in_path, &ext);
     match format {
         Formats::Webp => params::webp(in_path, &out_path),
         Formats::Avif => params::avif(in_path, &out_path),
