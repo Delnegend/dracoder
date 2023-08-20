@@ -16,11 +16,10 @@ fn main() {
     }
 
     let mut threads = Vec::new();
-    for i in 1..args.len() {
-        let in_path = args[i].clone();
-        let out_path = path::replace_ext(&in_path, path::from_bin_get_ext());
+    for i in args.iter().skip(1) {
+        let arg = i.clone();
         threads.push(spawn(move || {
-            ffmpeg::convert(&in_path, &out_path).unwrap();
+            ffmpeg::convert(&arg).unwrap();
         }));
     }
 
