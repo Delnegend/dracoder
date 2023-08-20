@@ -5,9 +5,6 @@ pub mod msg {
     pub fn no_file_found() -> &'static str {
         "No file found, press any key to exit..."
     }
-    pub fn done() -> &'static str {
-        "Done, press any key to exit..."
-    }
 }
 
 pub mod func {

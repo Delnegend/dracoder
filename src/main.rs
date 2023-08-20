@@ -27,6 +27,4 @@ fn main() {
     for thread in threads {
         thread.join().unwrap();
     }
-
-    helper::func::input(helper::msg::done());
 }
