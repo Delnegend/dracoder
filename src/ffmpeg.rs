@@ -1,4 +1,4 @@
-use super::path::from_bin_get_ext;
+use super::path::{from_bin_get_ext, replace_ext};
 use std::process::Command;
 
 pub enum Formats {
