@@ -11,7 +11,7 @@ pub fn replace_ext(path: &str, ext: &str) -> String {
     }
     path
 }
-pub fn from_bin_get_ext() -> Formats {
+pub fn from_bin_get_ext() -> (Formats, String) {
     let bin_name = std::env::current_exe()
         .unwrap()
         .file_name()
@@ -20,10 +20,11 @@ pub fn from_bin_get_ext() -> Formats {
         .unwrap()
         .to_string();
     match bin_name.as_str() {
-        case if case.contains("webp") => Formats::Webp,
-        case if case.contains("avif") => Formats::Avif,
-        case if case.contains("x264") => Formats::X264,
-        case if case.contains("x265") => Formats::X265,
+        case if case.contains("webp") => (Formats::Webp, "webp".to_string()),
+        case if case.contains("avif") => (Formats::Avif, "avif".to_string()),
+        case if case.contains("x264") => (Formats::X264, "x264.mp4".to_string()),
+        case if case.contains("x265") => (Formats::X265, "x265.mp4".to_string()),
+        case if case.contains("prores") => (Formats::ProRes, "mov".to_string()),
         _ => {
             println!("Unknown binary name, press any key to exit...");
             std::io::stdin().read_line(&mut String::new()).unwrap();
