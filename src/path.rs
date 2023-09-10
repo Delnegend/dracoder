@@ -1,5 +1,20 @@
 use super::ffmpeg::Formats;
 
+pub fn which(binary: &str) -> bool {
+    let output = if cfg!(target_os = "windows") {
+        std::process::Command::new("where")
+            .arg(binary)
+            .output()
+            .expect("failed to execute process")
+    } else {
+        std::process::Command::new("which")
+            .arg(binary)
+            .output()
+            .expect("failed to execute process")
+    };
+    output.status.success()
+}
+
 pub fn replace_ext(path: &str, ext: &str) -> String {
     let mut path = path.to_string();
     let mut ext = ext.to_string();
@@ -11,6 +26,7 @@ pub fn replace_ext(path: &str, ext: &str) -> String {
     }
     path
 }
+
 pub fn from_bin_get_ext() -> (Formats, String) {
     let bin_name = std::env::current_exe()
         .unwrap()
@@ -30,6 +46,21 @@ pub fn from_bin_get_ext() -> (Formats, String) {
             std::io::stdin().read_line(&mut String::new()).unwrap();
             panic!("Unknown binary name")
         }
+    }
+}
+
+pub fn ffpb_or_ffmpeg() -> String {
+    let bin_name = std::env::current_exe()
+        .unwrap()
+        .file_name()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .to_string();
+    if which("ffpb") && bin_name.contains("ffpb") {
+        "ffpb".to_string()
+    } else {
+        "ffmpeg".to_string()
     }
 }
 

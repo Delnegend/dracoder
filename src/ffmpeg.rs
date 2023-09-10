@@ -1,4 +1,4 @@
-use super::path::{from_bin_get_ext, replace_ext};
+use super::path::{ffpb_or_ffmpeg, from_bin_get_ext, replace_ext};
 use std::process::Command;
 
 pub enum Formats {
@@ -49,7 +49,7 @@ fn get_args(in_path: &str) -> Vec<String> {
 }
 
 pub fn convert(in_path: &str) -> Result<bool, std::io::Error> {
-    let output = Command::new("ffmpeg")
+    let output = Command::new(ffpb_or_ffmpeg())
         .args(get_args(in_path))
         .spawn()?
         .wait()?;
