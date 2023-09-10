@@ -6,6 +6,7 @@ pub enum Formats {
     Avif,
     X264,
     X265,
+    X265LL,
     ProRes,
 }
 
@@ -22,6 +23,9 @@ mod params {
     }
     pub fn x265<'a>(in_path: &'a str, out_path: &'a str) -> Vec<&'a str> {
         vec!["-i", in_path, "-c:v", "libx265", "-vf", "scale=ceil(iw/2)*2:ceil(ih/2)*2", "-pix_fmt", "yuv420p", "-tag:v", "hvc1", "-crf", "18", "-preset", "slow", "-c:a", "copy", out_path]
+    }
+    pub fn x265_ll<'a>(in_path: &'a str, out_path: &'a str) -> Vec<&'a str> {
+        vec!["-i", in_path, "-c:v", "libx265", "-vf", "scale=ceil(iw/2)*2:ceil(ih/2)*2", "-pix_fmt", "yuv420p", "-tag:v", "hvc1", "-crf", "0", "-c:a", "copy", out_path]
     }
     pub fn prores<'a>(in_path: &'a str, out_path: &'a str) -> Vec<&'a str> {
         vec!["-i", in_path, "-c:v", "prores_ks", "-profile:v", "5", "-pix_fmt", "yuva444p10le", "-c:a", "pcm_s24le", out_path]
@@ -41,6 +45,7 @@ fn get_args(in_path: &str) -> Vec<String> {
         Formats::Avif => params::avif(in_path, &out_path),
         Formats::X264 => params::x264(in_path, &out_path),
         Formats::X265 => params::x265(in_path, &out_path),
+        Formats::X265LL => params::x265_ll(in_path, &out_path),
         Formats::ProRes => params::prores(in_path, &out_path),
     }
     .iter()
