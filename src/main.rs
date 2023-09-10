@@ -1,5 +1,6 @@
 mod ffmpeg;
 mod helper;
+mod notification;
 mod path;
 use std::thread::spawn;
 
@@ -26,4 +27,11 @@ fn main() {
     for thread in threads {
         thread.join().unwrap();
     }
+
+    match notification::notify("Done!") {
+        Ok(_) => {}
+        Err(e) => {
+            helper::func::input(e.to_string().as_str());
+        }
+    };
 }
