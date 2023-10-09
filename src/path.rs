@@ -41,6 +41,7 @@ pub fn from_bin_get_ext() -> (Formats, String) {
         case if case.contains("x264") => (Formats::X264, "x264.mp4".to_string()),
         case if case.contains("x265") => (Formats::X265, "x265.mp4".to_string()),
         case if case.contains("x265ll") => (Formats::X265LL, "x265ll.mp4".to_string()),
+        case if case.contains("x264ll") => (Formats::X264LL, "x264ll.mp4".to_string()),
         case if case.contains("prores") => (Formats::ProRes, "mov".to_string()),
         _ => {
             println!("Unknown binary name, press any key to exit...");
